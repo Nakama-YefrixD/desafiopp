@@ -1,0 +1,114 @@
+openapi: 3.0.0
+info:
+  title: API de desafio Backend
+  version: 1.0.0
+paths:
+  /listaMensajesActivos:
+    post:
+      summary: Obtener lista de mensajes activos
+      description: |
+        Este endpoint permite obtener una lista de mensajes activos según el mes y el opcionalmente el ID del cliente proporcionados.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                mes:
+                  type: integer
+                  description: El mes para el que se desea obtener la lista de mensajes activos.
+                idCliente:
+                  type: integer
+                  description: El ID del cliente para filtrar la lista de mensajes. Este puede ser nulo.
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito
+                  input:
+                    type: array
+                    description: Lista de mensajes activos
+                    items:
+                      type: object
+                      properties:
+                        estadoEnvio:
+                          type: string
+                          description: Estado de envío del mensaje
+                        cantidad_mensajes:
+                          type: integer
+                          description: Cantidad de mensajes con el estado de envío especificado
+        '400':
+          description: Solicitud incorrecta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Descripción del error
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Descripción del error
+  /programarCampania:
+    post:
+      summary: Programar una campaña
+      description: |
+        Este endpoint permite programar una nueva campaña a un cliente.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: Nombre de la campaña
+                idUsuario:
+                  type: integer
+                  description: ID del usuario asociado a la campaña
+                fechaHoraProgramacion:
+                  type: string
+                  format: date-time
+                  description: Fecha y hora de programación de la campaña (formato ISO 8601)
+      responses:
+        '200':
+          description: Campaña programada con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito
+                  input:
+                    type: object
+                    description: Resultado de la programación de la campaña
+                    properties:
+                      // Propiedades específicas de la respuesta
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Descripción del error
